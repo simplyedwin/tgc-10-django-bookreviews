@@ -18,8 +18,13 @@ from django.urls import path
 import books.views # must import in the view.py of the app
 import reviews.views
 
+# routing path with view functions
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('books/',books.views.index), # app folder then view.py then view function
-    path('reviews/', reviews.views.index)
+    path('reviews/', reviews.views.index),
+    path('authors/',books.views.index_author),
+    path('books/create/book',books.views.create_book),
+    path('books/create/author',books.views.create_author),
+
 ]

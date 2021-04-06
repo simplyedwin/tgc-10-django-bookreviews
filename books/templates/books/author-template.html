@@ -1,0 +1,25 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=<device-width>, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Authors</h1>
+    <p>
+        Here you can see all the book authors that we have.
+    </p> 
+
+    <ul>
+        {%for author in authors %}
+        <li>Name:{{author.FirstName}} {{author.LastName}} </li>
+        <li>DOB:{{author.DateOfBirth}} </li>
+        {%endfor%}
+    </ul>
+    
+</body>
+</html>
