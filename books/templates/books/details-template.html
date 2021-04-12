@@ -1,0 +1,41 @@
+{% extends 'base-template.html' %}
+{%load crispy_forms_tags %}
+
+{% block content %}
+
+<h1>
+    {{book.title}}
+</h1>
+<p>
+    ISBN: {{book.ISBN}}
+</p>
+<p>
+    Authors: {% for info in book.authors.all %} <span class="label">{{info.FirstName}} {{info.LastName}}</span>
+    {%endfor%}
+</p>
+<p>
+    <!-- You can access instance variables through a foreign key (for instance book.genre.title) -->
+    Genre: {{book.genre.genre}}
+</p>
+
+<p>
+    Tags: {% for t in book.tags.all %} <span class="label">{{t.tag}}</span> {%endfor%}
+</p>
+{{book.reviews}}
+
+<!-- You can access all the reviews associated with the book with book.review_set.all. -->
+{%for r in book.review_set.all %}
+<div class="card">
+    <h3>{{r.title}}</h3>
+    {{r.content}}
+</div>
+{%endfor%}
+
+
+<form method="POST" action="{% url 'create_review_route' book_id=book.id %}">
+    {% csrf_token %}
+    {{ form|crispy}}
+    <input type="submit" />
+</form>
+
+{% endblock %}

@@ -38,8 +38,17 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    
+    # To prettify forms
+    'crispy_forms',
+    
+    # Authentication apps to be installed
+    'django.contrib.sites',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
 
-    #My Apps
+    # My Apps
     'books',
     'reviews',
 ]
@@ -59,7 +68,11 @@ ROOT_URLCONF = 'BookReviewsProject.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        
+        # Tell Django where to find the master template and the overridden templates
+        'DIRS': [os.path.join(BASE_DIR, 'templates'),
+                 os.path.join(BASE_DIR, 'templates', 'allauth')],
+        
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -71,6 +84,48 @@ TEMPLATES = [
         },
     },
 ]
+
+# Settings for Authentication
+# -------------- START AUTHENTICATION SETTINGS -------------- #
+
+AUTHENTICATION_BACKENDS = (
+    # Needed to login by username in Django admin, regardless of `allauth`
+    'django.contrib.auth.backends.ModelBackend',
+
+    # `allauth` specific authentication methods, such as login by e-mail
+    'allauth.account.auth_backends.AuthenticationBackend',
+)
+
+#  Allauth will need a site id to be used to identify the site
+SITE_ID = 1
+
+# Authentication method refers to how we want the user to log in.
+# "username_email" means the user can log in via their username or email
+ACCOUNT_AUTHENTICATION_METHOD = 'username_email'
+
+# Email required indicates whether the user must provide a valid email address when registering
+ACCOUNT_EMAIL_REQUIRED = True
+
+# Email verification indicates whether the user must verify the email address
+# (by clicking on a special link sent to their email address) before they can sign in.
+ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
+
+# The "Email enter twice" basically requires the user to type in their email twice to prevent misspellings.
+ACCOUNT_SIGNUP_EMAIL_ENTER_TWICE = True
+
+# The minimum length of the account username
+ACCOUNT_USERNAME_MIN_LENGTH = 4
+
+# The LOGIN_URL determine the URL to the login page
+LOGIN_URL = '/accounts/login/'
+
+# LOGIN_REDIRECT_URL controls which page Django will show when the log is successful.
+LOGIN_REDIRECT_URL = '/success'
+
+# To simulate Django sending out emails. This will be seen in the console
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+# -------------- END AUTHENTICATION SETTINGS -------------- #
 
 WSGI_APPLICATION = 'BookReviewsProject.wsgi.application'
 
@@ -124,6 +179,12 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-STATICFILES_DIRS =[
-    os.path.join(BASE_DIR,'static')
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static')
 ]
+
+# To enable django to show flash message
+MESSAGE_STORAGE = 'django.contrib.messages.storage.session.SessionStorage'
+
+# To use bootstrap 4 form format
+CRISPY_TEMPLATE_PACK = 'bootstrap4'

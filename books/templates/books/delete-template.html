@@ -1,0 +1,25 @@
+{% extends 'base-template.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+{% if book %}
+<h1>Delete Book</h1>
+{% else %}
+<h1>Delete Author</h1>
+{% endif %}
+
+<p>Are you sure?</p>
+
+<form method="POST">
+  {% csrf_token %} {{ form|crispy}}
+  <input type="Submit" value="Yes" />
+
+  {% if book %}
+  <a href="{% url 'show_book_route' %}"> No </a>
+  {% else %}
+  <a href="{% url 'show_author_route' %}"> No </a>
+  {% endif %}
+</form>
+
+{% endblock %}
